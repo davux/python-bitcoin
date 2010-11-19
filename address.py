@@ -25,10 +25,10 @@ class Address(object):
 
     def __setattr__(self, name, value):
         if 'label' == name:
-            if label is None:
+            if value is None:
                 Controller().setlabel(self.address)
             else:
-                Controller().setlabel(self.address, label)
+                Controller().setlabel(self.address, value)
         else:
             object.__setattr__(self, name, value)
 
