@@ -32,6 +32,10 @@ class Address(object):
         else:
             object.__setattr__(self, name, value)
 
+    def getReceived(self):
+        '''Returns the total amount received on this address.'''
+        return Controller().getreceivedbyaddress(self.address)
+
 class InvalidBitcoinAddressError(Exception):
     '''The Bitcoin address is invalid.'''
     pass
