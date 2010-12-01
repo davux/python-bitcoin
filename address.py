@@ -5,8 +5,8 @@ from controller import Controller
 
 class Address(object):
     '''A Bitcoin address. Bitcoin properties of an address (for example its
-       label) may be read and written like normal Python instance attributes
-       (foo.label, or foo.label="blah").'''
+       account) may be read and written like normal Python instance attributes
+       (foo.account, or foo.account="blah").'''
 
     def __init__(self, address=None):
         '''Constructor. If address is empty, generate one.'''
@@ -20,15 +20,15 @@ class Address(object):
         return self.address
 
     def __getattr__(self, name):
-        if 'label' == name:
-            return Controller().getlabel(self.address)
+        if 'account' == name:
+            return Controller().getaccount(self.address)
 
     def __setattr__(self, name, value):
-        if 'label' == name:
+        if 'account' == name:
             if value is None:
-                Controller().setlabel(self.address)
+                Controller().setaccount(self.address)
             else:
-                Controller().setlabel(self.address, value)
+                Controller().setaccount(self.address, value)
         else:
             object.__setattr__(self, name, value)
 
