@@ -35,12 +35,33 @@ class Controller(object):
                 cls.cache[url].getreceivedbyaddress = cls.cache[url].conn.getreceivedbyaddress
                 cls.cache[url].getreceivedbyaccount = cls.cache[url].conn.getreceivedbyaccount
                 cls.cache[url].help = cls.cache[url].conn.help
-                cls.cache[url].listreceivedbyaddress = cls.cache[url].conn.listreceivedbyaddress
-                cls.cache[url].listreceivedbyaccount = cls.cache[url].conn.listreceivedbyaccount
+                cls.cache[url]._listreceivedbyaddress = cls.cache[url].conn.listreceivedbyaddress
+                cls.cache[url]._listreceivedbyaccount = cls.cache[url].conn.listreceivedbyaccount
                 cls.cache[url].sendtoaddress = cls.cache[url].conn.sendtoaddress
                 cls.cache[url].stop = cls.cache[url].conn.stop
                 cls.cache[url].validateaddress = cls.cache[url].conn.validateaddress
         return cls.cache[url]
+
+    def listreceivedbyaddress(self, info=None):
+        '''An enhanced version of standard listreceivedbyaddress. It accepts
+           an optional secondary argument, 'info', that makes the function
+           return a simple dict (address as key, info as value). 'info' can
+           be 'amount', 'account'/'label', 'confirmations'.'''
+        l = self._listreceivedbyaddress()
+        if info is None:
+            return l
+        else:
+            return dict([[l[i]['address'], l[i][info]] for i in range(len(l))])
+
+    def listreceivedbyaccount(self, info=None):
+        '''Same as listreceivedbyaddress(), with accounts.
+           'info' can be 'amount' or 'confirmations' (it can also be 'label',
+           but that would be pointless).'''
+        l = self._listreceivedbyaccount()
+        if info is None:
+            return l
+        else:
+            return dict([[l[i]['account'], l[i][info]] for i in range(len(l))])
 
 class BitcoinServerIOError(IOError):
     '''There was a problem when connecting to the bitcoin server'''
