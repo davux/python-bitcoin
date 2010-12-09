@@ -41,6 +41,7 @@ class Controller(object):
                 cls.cache[url]._listreceivedbyaddress = cls.cache[url].conn.listreceivedbyaddress
                 cls.cache[url]._listreceivedbyaccount = cls.cache[url].conn.listreceivedbyaccount
                 cls.cache[url].listtransactions = cls.cache[url].conn.listtransactions
+                cls.cache[url].move = cls.cache[url].conn.move
                 cls.cache[url].sendfrom = cls.cache[url].conn.sendfrom
                 cls.cache[url].sendtoaddress = cls.cache[url].conn.sendtoaddress
                 cls.cache[url].getwork = cls.cache[url].conn.getwork
