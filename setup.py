@@ -3,7 +3,7 @@
 from distutils.core import setup
 
 setup(name = "bitcoin",
-    version = "0.0.1",
+    version = "0.3.18.0",
     description = "A high-level bitcoin package.",
     keywords = "Bitcoin",
     author = "David Ammouial",
