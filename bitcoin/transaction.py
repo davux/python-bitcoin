@@ -39,15 +39,9 @@ class Transaction(object):
                 self.category = CATEGORY_RECEIVE
             else:
                 self.category = CATEGORY_SEND
-        self.fee = tx['fee']
-        try:
-            self.message = tx['message']
-        except KeyError:
-            self.message = None
-        try:
-            self.otheraccount = tx['otheraccount']
-        except KeyError:
-            self.otheraccount = None
+        self.fee = tx.get('fee', 0)
+        self.message = tx.get('message')
+        self.otheraccount = tx.get('otheraccount')
         return True
 
     def __getattr__(self, name):
