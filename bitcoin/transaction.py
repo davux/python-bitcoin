@@ -3,14 +3,10 @@
 from controller import Controller
 from jsonrpc.proxy import JSONRPCException
 
-CATEGORY_UNDEF = 0
-CATEGORY_SEND = 1
-CATEGORY_RECEIVE = 2
-CATEGORY_MOVE = 3
-
-_categories = {'move': CATEGORY_MOVE, 'send': CATEGORY_SEND, \
-               'receive': CATEGORY_RECEIVE}
-
+CATEGORY_UNDEF = ''
+CATEGORY_SEND = 'send'
+CATEGORY_RECEIVE = 'receive'
+CATEGORY_MOVE = 'move'
 
 class Transaction(object):
     def __init__(self, txid=None, category=CATEGORY_UNDEF, amount=0, message=None, fee=0, otheraccount=None):
@@ -33,7 +29,7 @@ class Transaction(object):
             return False
         self.amount = tx['amount']
         try:
-            self.category = _categories[tx['category']]
+            self.category = tx['category']
         except KeyError:
             if 0 <= self.amount:
                 self.category = CATEGORY_RECEIVE
