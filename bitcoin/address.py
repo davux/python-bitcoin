@@ -2,6 +2,7 @@
 # vi: sts=4 et sw=4
 
 from controller import Controller
+from jsonrpc.proxy import JSONRPCException
 
 class Address(object):
     '''A Bitcoin address. Bitcoin properties of an address (for example its
@@ -12,7 +13,10 @@ class Address(object):
         '''Constructor. If address is empty, generate one.'''
         if address is None:
             address = Controller().getnewaddress()
-        if not Controller().validateaddress(address)['isvalid']:
+        try:
+            if not Controller().validateaddress(address)['isvalid']:
+                raise InvalidBitcoinAddressError(address)
+        except JSONRPCException:
             raise InvalidBitcoinAddressError(address)
         self.address = address
 
