@@ -40,6 +40,11 @@ class Address(object):
         '''Returns the total amount received on this address.'''
         return Controller().getreceivedbyaddress(self.address)
 
+    def uri(self):
+        '''Return an URI for the address, of the form "bitcoin:17E9wnB...".
+           At the moment, the URI takes no other argument yet.'''
+        return "bitcoin:" + self.address
+
 class InvalidBitcoinAddressError(Exception):
     '''The Bitcoin address is invalid.'''
     pass
