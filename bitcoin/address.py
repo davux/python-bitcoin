@@ -45,6 +45,37 @@ class Address(object):
            At the moment, the URI takes no other argument yet.'''
         return "bitcoin:" + self.address
 
+    def qrCode(self, size=80, level='L', formt=None, asURI=True):
+        '''Return a string representing the QR code of the address. If `formt`
+           is None, the internal format used by PIL is used, otherwise the
+           image is converted to the desired format (e.g. 'PNG').
+           The level can be one of 'L', 'M', 'Q' or 'H'.
+           If `asURI` is True, encode the address's "bitcoin:" URI, otherwise
+           encode the raw address.
+           This method needs the qrencode module, and returns None if the
+           module is not found.'''
+        try:
+            from qrencode import encode_scaled, QR_ECLEVEL_L, QR_ECLEVEL_M, \
+                                 QR_ECLEVEL_Q, QR_ECLEVEL_H
+        except ImportError:
+            return None
+        lvl = {'L': QR_ECLEVEL_L, 'M': QR_ECLEVEL_M, 'Q': QR_ECLEVEL_Q, \
+               'H': QR_ECLEVEL_H}[level]
+        if asURI:
+            data = self.uri()
+        else:
+            data = self.address
+        im = encode_scaled(data, size, level=lvl)[2]
+        if formt is None:
+            result = im.tostring()
+        else:
+            from StringIO import StringIO
+            buf = StringIO()
+            im.save(buf, formt)
+            result = buf.getvalue()
+            buf.close()
+        return result
+
 class InvalidBitcoinAddressError(Exception):
     '''The Bitcoin address is invalid.'''
     pass
